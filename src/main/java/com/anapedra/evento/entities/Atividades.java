@@ -12,22 +12,22 @@ public class Atividades implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
-    private String email;
+    private String descricao;
+    private String preco;
     @ManyToOne
     @JoinColumn(name = "categoriaId")
     private Categoria categoria;
     @OneToMany(mappedBy = "atividades")
     private List<Bloco>blocos=new ArrayList<>();
     @ManyToMany
-    @JoinTable(name = "tb_atividade_categoria",joinColumns = @JoinColumn(name = "atividadeId"),
-                inverseJoinColumns = @JoinColumn(name = "categoriaId"))
+    @JoinTable(name = "tb_atividade_participante",joinColumns = @JoinColumn(name = "atividadeId"),
+                inverseJoinColumns = @JoinColumn(name = "participanteId"))
     private Set<Participante>participantes=new HashSet<>();
 
-    public Atividades(Long id, String nome, String email, Categoria categoria) {
+    public Atividades(Long id, String descricao, String preco, Categoria categoria) {
         this.id = id;
-        this.nome = nome;
-        this.email = email;
+        this.descricao = descricao;
+        this.preco = preco;
         this.categoria = categoria;
     }
 
@@ -43,20 +43,20 @@ public class Atividades implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPreco() {
+        return preco;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPreco(String preco) {
+        this.preco = preco;
     }
 
     public Categoria getCategoria() {

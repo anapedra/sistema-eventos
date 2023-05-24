@@ -15,16 +15,15 @@ public class Participante implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String descricao;
-    private String preco;
+    private String email;
+
     @ManyToMany(mappedBy = "participantes")
     private Set<Atividades>atividades=new HashSet<>();
 
-    public Participante(Long id, String nome, String descricao, String preco) {
+    public Participante(Long id, String nome, String email) {
         this.id = id;
         this.nome = nome;
-        this.descricao = descricao;
-        this.preco = preco;
+        this.email = email;
     }
 
     public Participante() {
@@ -47,21 +46,19 @@ public class Participante implements Serializable {
         this.nome = nome;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getPreco() {
-        return preco;
+    public Set<Atividades> getAtividades() {
+        return atividades;
     }
 
-    public void setPreco(String preco) {
-        this.preco = preco;
-    }
+
 
     @Override
     public boolean equals(Object o) {
