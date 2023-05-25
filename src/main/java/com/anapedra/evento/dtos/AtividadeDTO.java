@@ -1,23 +1,25 @@
 package com.anapedra.evento.dtos;
 
 import com.anapedra.evento.entities.Atividade;
+import com.anapedra.evento.entities.Bloco;
 import com.anapedra.evento.entities.Participante;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class AtividadeDTO implements Serializable {
     private static final long serialVersionUID=1L;
     private Long id;
     private String nome;
-    private String preco;
+    private Double preco;
     private Long categoriaId;
     private List<BlocoDTO> blocos=new ArrayList<BlocoDTO>();
 
 
-    public AtividadeDTO(Long id, String nome, String preco, Long categoriaId) {
+    public AtividadeDTO(Long id, String nome, Double preco, Long categoriaId) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
@@ -29,24 +31,14 @@ public class AtividadeDTO implements Serializable {
     public AtividadeDTO(Atividade entytie) {
         id = entytie.getId();
         nome = entytie.getNome();
-        preco = entytie.getPreco();
+        preco=entytie.getPreco();
         categoriaId = entytie.getCategoria().getId();
         entytie.getBlocos().forEach(bloco -> this.blocos.add(new BlocoDTO(bloco)));
 
-/*
-
-
-entity.getComments().forEach(comment -> this.comments.add(new CommentDTO(comment)));
-
-
-    public PostDTO(Post entity, Set<Category> categories,List<Comment>comments) {
-        this(entity);
-        categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
-        comments.forEach(c -> this.comments.add(new CommentDTO(c)));
-
     }
- */
-
+    public AtividadeDTO(Atividade entity, List<Bloco> blocos) {
+        this(entity);
+        blocos.forEach(bloco -> this.blocos.add(new BlocoDTO(bloco)));
     }
 
     public Long getId() {
@@ -65,11 +57,11 @@ entity.getComments().forEach(comment -> this.comments.add(new CommentDTO(comment
         this.nome = nome;
     }
 
-    public String getPreco() {
+    public Double getPreco() {
         return preco;
     }
 
-    public void setPreco(String preco) {
+    public void setPreco(Double preco) {
         this.preco = preco;
     }
 
@@ -83,6 +75,10 @@ entity.getComments().forEach(comment -> this.comments.add(new CommentDTO(comment
 
     public List<BlocoDTO> getBlocos() {
         return blocos;
+    }
+
+    public void setBlocos(List<BlocoDTO> blocos) {
+        this.blocos = blocos;
     }
 
     @Override

@@ -13,7 +13,9 @@ public class Bloco implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant inicio;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant fim;
     @ManyToOne
     @JoinColumn(name = "atividadesId")
@@ -29,6 +31,9 @@ public class Bloco implements Serializable {
     public Bloco() {
 
     }
+
+
+
 
     public Long getId() {
         return id;

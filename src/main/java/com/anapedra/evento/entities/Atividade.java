@@ -13,7 +13,7 @@ public class Atividade implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String preco;
+    private Double preco;
     @ManyToOne
     @JoinColumn(name = "categoriaId")
     private Categoria categoria;
@@ -24,7 +24,7 @@ public class Atividade implements Serializable {
                 inverseJoinColumns = @JoinColumn(name = "participanteId"))
     private Set<Participante>participantes=new HashSet<>();
 
-    public Atividade(Long id, String nome, String preco, Categoria categoria) {
+    public Atividade(Long id, String nome, Double preco, Categoria categoria) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
@@ -52,11 +52,11 @@ public class Atividade implements Serializable {
         this.nome = nome;
     }
 
-    public String getPreco() {
+    public Double getPreco() {
         return preco;
     }
 
-    public void setPreco(String preco) {
+    public void setPreco(Double preco) {
         this.preco = preco;
     }
 
