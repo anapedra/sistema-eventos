@@ -1,32 +1,36 @@
-package com.anapedra.evento.entities;
+package com.anapedra.evento.dtos;
 
-import jakarta.persistence.*;
+import com.anapedra.evento.entities.Atividade;
+import com.anapedra.evento.entities.Bloco;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-@Entity
-@Table(name = "tb_bloco")
-public class Bloco implements Serializable {
+public class BlocoDTO implements Serializable {
     private static final long serialVersionUID=1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     private Instant inicio;
     private Instant fim;
-    @ManyToOne
-    @JoinColumn(name = "atividadesId")
-    private Atividade atividades;
 
-    public Bloco(Long id, Instant inicio, Instant fim, Atividade atividades) {
+    public BlocoDTO(Long id, Instant inicio, Instant fim) {
         this.id = id;
         this.inicio = inicio;
         this.fim = fim;
-        this.atividades = atividades;
+
     }
 
-    public Bloco() {
+    public BlocoDTO() {
+
+    }
+
+    public BlocoDTO(Bloco entytie) {
+        id = entytie.getId();
+        inicio = entytie.getInicio();
+        fim = entytie.getFim();
 
     }
 
@@ -54,24 +58,16 @@ public class Bloco implements Serializable {
         this.fim = fim;
     }
 
-    public Atividade getAtividades() {
-        return atividades;
-    }
-
-    public void setAtividades(Atividade atividades) {
-        this.atividades = atividades;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Bloco)) return false;
-        Bloco bloco = (Bloco) o;
-        return Objects.equals(getId(), bloco.getId());
+        if (!(o instanceof BlocoDTO)) return false;
+        BlocoDTO blocoDTO = (BlocoDTO) o;
+        return Objects.equals(id, blocoDTO.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(id);
     }
 }

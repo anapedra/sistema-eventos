@@ -1,33 +1,25 @@
-package com.anapedra.evento.entities;
+package com.anapedra.evento.dtos;
 
-import jakarta.persistence.*;
+import com.anapedra.evento.entities.Participante;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
-@Entity
-@Table(name = "tb_participante")
-public class Participante implements Serializable {
+public class ParticipanteDTO implements Serializable {
     private static final long serialVersionUID=1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     private String nome;
     private String email;
 
-    @ManyToMany(mappedBy = "participantes")
-    private Set<Atividade>atividades=new HashSet<>();
+    public ParticipanteDTO() {
 
-    public Participante(Long id, String nome, String email) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
     }
 
-    public Participante() {
-
+    public ParticipanteDTO(Participante entytie) {
+        id=entytie.getId();
+        nome=entytie.getNome();
+        email=entytie.getEmail();
     }
 
     public Long getId() {
@@ -54,17 +46,11 @@ public class Participante implements Serializable {
         this.email = email;
     }
 
-    public Set<Atividade> getAtividades() {
-        return atividades;
-    }
-
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Participante)) return false;
-        Participante that = (Participante) o;
+        if (!(o instanceof ParticipanteDTO)) return false;
+        ParticipanteDTO that = (ParticipanteDTO) o;
         return Objects.equals(id, that.id);
     }
 

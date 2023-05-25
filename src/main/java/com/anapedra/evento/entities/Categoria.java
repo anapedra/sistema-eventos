@@ -16,7 +16,7 @@ public class Categoria implements Serializable {
     private Long id;
     private String descricao;
     @OneToMany(mappedBy = "categoria")
-    private List<Atividades>atividades=new ArrayList<>();
+    private List<Atividade>atividades=new ArrayList<>();
 
     public Categoria(Long id, String descricao) {
         this.id = id;
@@ -43,7 +43,7 @@ public class Categoria implements Serializable {
         this.descricao = descricao;
     }
 
-    public List<Atividades> getAtividades() {
+    public List<Atividade> getAtividades() {
         return atividades;
     }
 

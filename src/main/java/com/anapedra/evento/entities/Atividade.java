@@ -7,12 +7,12 @@ import java.util.*;
 
 @Entity
 @Table(name = "tb_atividade")
-public class Atividades implements Serializable {
+public class Atividade implements Serializable {
     private static final long serialVersionUID=1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String descricao;
+    private String nome;
     private String preco;
     @ManyToOne
     @JoinColumn(name = "categoriaId")
@@ -24,14 +24,15 @@ public class Atividades implements Serializable {
                 inverseJoinColumns = @JoinColumn(name = "participanteId"))
     private Set<Participante>participantes=new HashSet<>();
 
-    public Atividades(Long id, String descricao, String preco, Categoria categoria) {
+    public Atividade(Long id, String nome, String preco, Categoria categoria) {
         this.id = id;
-        this.descricao = descricao;
+        this.nome = nome;
         this.preco = preco;
         this.categoria = categoria;
     }
 
-    public Atividades() {
+
+    public Atividade() {
 
     }
 
@@ -43,12 +44,12 @@ public class Atividades implements Serializable {
         this.id = id;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getNome() {
+        return nome;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getPreco() {
@@ -80,8 +81,8 @@ public class Atividades implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Atividades)) return false;
-        Atividades that = (Atividades) o;
+        if (!(o instanceof Atividade)) return false;
+        Atividade that = (Atividade) o;
         return Objects.equals(id, that.id);
     }
 
