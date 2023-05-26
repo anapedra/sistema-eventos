@@ -26,7 +26,7 @@ public class CategoriaService {
 
 
     @Transactional(readOnly = true)
-    public List<CategoriaDTO> findAllPaged() {
+    public List<CategoriaDTO> findAll() {
         List<Categoria> list = categoriaRepository.findAll();
         return list.stream().map(CategoriaDTO::new).collect(Collectors.toList());
     }
@@ -35,7 +35,7 @@ public class CategoriaService {
     public CategoriaDTO findById(Long id) {
         Optional<Categoria> obj = categoriaRepository.findById(id);
         var entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-        return new CategoriaDTO(entity);
+        return new CategoriaDTO(entity,entity.getAtividades());
     }
 
 

@@ -56,24 +56,24 @@ public class EventoApplication implements CommandLineRunner {
         categoriaRepository.saveAll(categorias);
 
         Atividade a1 = new Atividade(1L,"Curso de HTML",80.00,c1);
-        Atividade a2 = new Atividade(2L,"Ofina de Github",50.00,c1);
+        Atividade a2 = new Atividade(2L,"Ofina de Github",50.00,c2);
+
         atividades.addAll(Arrays.asList(a1,a2));
         atividadeRepository.saveAll(atividades);
+
+        a1.getParticipantes().addAll(Arrays.asList(p1,p2,p3));
+        a2.getParticipantes().addAll(Arrays.asList(p1,p3,p4));
+        atividades.addAll(Arrays.asList(a1,a2));
+        atividadeRepository.saveAll(atividades);
+
+
 
         Bloco b1 = new Bloco(1L,Instant.parse("2017-09-25T08:00:00Z"),Instant.parse("2017-09-25T11:00:00Z"),a1);
         Bloco b2 = new Bloco(2L,Instant.parse("2017-09-25T14:00:00Z"),Instant.parse("2017-09-25T18:00:00Z"),a2);
         Bloco b3 = new Bloco(3L,Instant.parse("2017-09-26T08:00:00Z"),Instant.parse("2017-09-26T11:00:00Z"),a2);
-        Bloco b4 = new Bloco(4L,Instant.now(),Instant.now(),a1);
-        blocos.addAll(Arrays.asList(b1,b2,b3,b4));
+        blocos.addAll(Arrays.asList(b1,b2,b3));
         blocoRepository.saveAll(blocos);
 
-        a1.getParticipantes().add(p1);
-        a1.getParticipantes().add(p2);
-        a1.getParticipantes().add(p3);
-        a2.getParticipantes().add(p3);
-        a2.getParticipantes().add(p4);
-        atividades.addAll(Arrays.asList(a1,a2));
-        atividadeRepository.saveAll(atividades);
 
     }
 

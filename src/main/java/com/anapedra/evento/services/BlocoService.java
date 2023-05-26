@@ -29,7 +29,7 @@ public class BlocoService {
     }
 
     @Transactional(readOnly = true)
-    public List<BlocoDTO> findAllPaged() {
+    public List<BlocoDTO> findAll() {
         List<Bloco> list = blocoRepository.findAll();
         return list.stream().map(BlocoDTO::new).collect(Collectors.toList());
     }

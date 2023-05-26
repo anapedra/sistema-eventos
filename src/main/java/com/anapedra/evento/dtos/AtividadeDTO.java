@@ -15,16 +15,18 @@ public class AtividadeDTO implements Serializable {
     private Long id;
     private String nome;
     private Double preco;
-    private Long categoriaId;
+    private CategoriaDTO categoria;
+    private List<ParticipanteDTO> participantes=new ArrayList<>();
     private List<BlocoDTO> blocos=new ArrayList<BlocoDTO>();
 
 
-    public AtividadeDTO(Long id, String nome, Double preco, Long categoriaId) {
+    public AtividadeDTO(Long id, String nome, Double preco, CategoriaDTO categoria) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
-        this.categoriaId = categoriaId;
+        this.categoria = categoria;
     }
+
     public AtividadeDTO() {
 
     }
@@ -32,14 +34,23 @@ public class AtividadeDTO implements Serializable {
         id = entytie.getId();
         nome = entytie.getNome();
         preco=entytie.getPreco();
-        categoriaId = entytie.getCategoria().getId();
-        entytie.getBlocos().forEach(bloco -> this.blocos.add(new BlocoDTO(bloco)));
+        categoria = new CategoriaDTO(entytie.getCategoria().getId(),entytie.getCategoria().getDescricao());
 
     }
+
+    public AtividadeDTO(Atividade entity, Set<Participante> participantes, List<Bloco> blocos) {
+        this(entity);
+        entity.getParticipantes().forEach(participante -> this.participantes.add(new ParticipanteDTO(participante)));
+        entity.getBlocos().forEach(bloco -> this.blocos.add(new BlocoDTO(bloco)));
+    }
+
+
     public AtividadeDTO(Atividade entity, List<Bloco> blocos) {
         this(entity);
         blocos.forEach(bloco -> this.blocos.add(new BlocoDTO(bloco)));
     }
+
+
 
     public Long getId() {
         return id;
@@ -65,12 +76,12 @@ public class AtividadeDTO implements Serializable {
         this.preco = preco;
     }
 
-    public Long getCategoriaId() {
-        return categoriaId;
+    public CategoriaDTO getCategoria() {
+        return categoria;
     }
 
-    public void setCategoriaId(Long categoriaId) {
-        this.categoriaId = categoriaId;
+    public void setCategoria(CategoriaDTO categoria) {
+        this.categoria = categoria;
     }
 
     public List<BlocoDTO> getBlocos() {
@@ -79,6 +90,10 @@ public class AtividadeDTO implements Serializable {
 
     public void setBlocos(List<BlocoDTO> blocos) {
         this.blocos = blocos;
+    }
+
+    public List<ParticipanteDTO> getParticipantes() {
+        return participantes;
     }
 
     @Override

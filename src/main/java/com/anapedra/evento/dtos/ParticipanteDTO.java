@@ -33,11 +33,13 @@ public class ParticipanteDTO implements Serializable {
         id=entytie.getId();
         nome=entytie.getNome();
         email=entytie.getEmail();
-        entytie.getAtividades().forEach(atividade -> this.atividades.add(new AtividadeDTO(atividade)));
     }
+
+
     public ParticipanteDTO(Participante entity, Set<Atividade> atividades) {
         this(entity);
         atividades.forEach(atividade -> this.atividades.add(new AtividadeDTO(atividade)));
+      //  entity.getAtividades().forEach(atividade -> this.atividades.add(new AtividadeDTO(atividade)));
     }
 
     public Long getId() {
@@ -71,6 +73,8 @@ public class ParticipanteDTO implements Serializable {
     public void setAtividades(List<AtividadeDTO> atividades) {
         this.atividades = atividades;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

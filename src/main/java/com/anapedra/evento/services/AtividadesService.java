@@ -4,6 +4,7 @@ import com.anapedra.evento.dtos.AtividadeDTO;
 import com.anapedra.evento.dtos.BlocoDTO;
 import com.anapedra.evento.entities.Atividade;
 import com.anapedra.evento.entities.Bloco;
+import com.anapedra.evento.entities.Categoria;
 import com.anapedra.evento.repositories.AtividadeRepository;
 import com.anapedra.evento.repositories.BlocoRepository;
 import com.anapedra.evento.repositories.CategoriaRepository;
@@ -25,7 +26,8 @@ public class AtividadesService {
    private final AtividadeRepository atividadeRepository;
    private final BlocoRepository blocoRepository;
    private final CategoriaRepository categoriaRepository;
-    public AtividadesService(AtividadeRepository atividadeRepository, BlocoRepository blocoRepository, CategoriaRepository categoriaRepository) {
+    public AtividadesService(AtividadeRepository atividadeRepository, BlocoRepository blocoRepository,
+                             CategoriaRepository categoriaRepository) {
         this.atividadeRepository = atividadeRepository;
         this.blocoRepository = blocoRepository;
         this.categoriaRepository = categoriaRepository;
@@ -34,14 +36,14 @@ public class AtividadesService {
     @Transactional(readOnly = true)
     public Page<AtividadeDTO> findAllPaged(Pageable pageable) {
         Page<Atividade> page = atividadeRepository.findAll(pageable);
-        return page.map(x -> new AtividadeDTO(x,x.getBlocos()));
+        return page.map(AtividadeDTO::new);
     }
 
     @Transactional(readOnly = true)
     public AtividadeDTO findById(Long id) {
         Optional<Atividade> obj = atividadeRepository.findById(id);
         Atividade entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-        return new AtividadeDTO(entity, entity.getBlocos());
+        return new AtividadeDTO(entity,entity.getParticipantes(),entity.getBlocos());
     }
 
 
@@ -55,7 +57,7 @@ public class AtividadesService {
             return new AtividadeDTO(entity);
         }
         catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Id not found " + dto.getCategoriaId());
+            throw new ResourceNotFoundException("Id not found " + dto.getId());
         }
 
     }
@@ -89,7 +91,7 @@ public class AtividadesService {
     private void copyDtoToEntity(AtividadeDTO dto, Atividade entity) {
 
         entity.setNome(dto.getNome());
-        entity.setCategoria(categoriaRepository.getReferenceById(dto.getCategoriaId()));
+        var categoria=new Categoria(dto.getCategoria().getId(),dto.getCategoria().getDescricao());
         entity.getBlocos().clear();
         for (BlocoDTO blocoDTO : dto.getBlocos()) {
             Bloco bloco = blocoRepository.getReferenceById(blocoDTO.getId());

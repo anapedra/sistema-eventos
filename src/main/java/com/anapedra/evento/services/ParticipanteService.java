@@ -2,6 +2,7 @@ package com.anapedra.evento.services;
 
 import com.anapedra.evento.dtos.AtividadeDTO;
 import com.anapedra.evento.dtos.ParticipanteDTO;
+import com.anapedra.evento.entities.Atividade;
 import com.anapedra.evento.entities.Participante;
 import com.anapedra.evento.repositories.AtividadeRepository;
 import com.anapedra.evento.repositories.ParticipanteRepository;
@@ -10,6 +11,8 @@ import com.anapedra.evento.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,16 +32,17 @@ public class ParticipanteService {
 
 
     @Transactional(readOnly = true)
-    public List<ParticipanteDTO> findAllPaged() {
-        List<Participante> list = participanteRepository.findAll();
-        return list.stream().map(ParticipanteDTO::new).collect(Collectors.toList());
+    public List<ParticipanteDTO> findAll() {
+        List<Participante> participantes =participanteRepository.findAll();
+        return participantes.stream().map(ParticipanteDTO::new).collect(Collectors.toList());
+
     }
 
     @Transactional(readOnly = true)
     public ParticipanteDTO findById(Long id) {
         Optional<Participante> obj = participanteRepository.findById(id);
         var entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-        return new ParticipanteDTO(entity, entity.getAtividades());
+        return new ParticipanteDTO(entity,entity.getAtividades());
     }
 
 
@@ -87,12 +91,13 @@ public class ParticipanteService {
 
         entity.setNome(dto.getNome());
         entity.setEmail(dto.getEmail());
-
         entity.getAtividades().clear();
         for (AtividadeDTO atividadeDTO : dto.getAtividades()) {
             var atividade = atividadeRepository.getReferenceById(atividadeDTO.getId());
             entity.getAtividades().add(atividade);
         }
+
+
 
     }
 

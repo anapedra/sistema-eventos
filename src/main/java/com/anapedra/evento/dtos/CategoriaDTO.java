@@ -1,8 +1,11 @@
 package com.anapedra.evento.dtos;
 
+import com.anapedra.evento.entities.Atividade;
 import com.anapedra.evento.entities.Categoria;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class CategoriaDTO implements Serializable {
@@ -10,6 +13,7 @@ public class CategoriaDTO implements Serializable {
 
     private Long id;
     private String descricao;
+    private List<AtividadeDTO> atividades=new ArrayList<AtividadeDTO>();
 
     public CategoriaDTO(Long id, String descricao) {
         this.id = id;
@@ -19,6 +23,13 @@ public class CategoriaDTO implements Serializable {
 
     }
     public CategoriaDTO(Categoria entytie) {
+     id=entytie.getId();
+     descricao=entytie.getDescricao();
+    }
+
+    public CategoriaDTO(Categoria entity, List<Atividade> atividades) {
+        this(entity);
+        entity.getAtividades().forEach(atividade -> this.atividades.add(new AtividadeDTO(atividade)));
 
     }
 
@@ -36,6 +47,10 @@ public class CategoriaDTO implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public List<AtividadeDTO> getAtividades() {
+        return atividades;
     }
 
     @Override

@@ -25,11 +25,9 @@ public class Participante implements Serializable {
         this.nome = nome;
         this.email = email;
     }
-
     public Participante() {
 
     }
-
     public Long getId() {
         return id;
     }
@@ -57,8 +55,6 @@ public class Participante implements Serializable {
     public Set<Atividade> getAtividades() {
         return atividades;
     }
-
-
 
     @Override
     public boolean equals(Object o) {

@@ -1,37 +1,40 @@
 package com.anapedra.evento.resources;
 
-import com.anapedra.evento.dtos.AtividadeDTO;
-import com.anapedra.evento.dtos.BlocoDTO;
-import com.anapedra.evento.services.BlocoService;
+import com.anapedra.evento.dtos.ParticipanteDTO;
+import com.anapedra.evento.services.ParticipanteService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/blocos")
-public class BlocoResource {
+@RequestMapping(value = "/participantes")
+public class ParticipanteResoruce {
 
-    private final BlocoService service;
-    public BlocoResource(BlocoService service) {
+    private final ParticipanteService service;
+    public ParticipanteResoruce(ParticipanteService service) {
         this.service = service;
     }
 
 
     @GetMapping
-    public ResponseEntity<List<BlocoDTO>> findAll() {
-        List<BlocoDTO> list = service.findAll();
+    public ResponseEntity<List<ParticipanteDTO>> findAll(){
+        List<ParticipanteDTO> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
+
     @GetMapping(value = "/{id}")
-    public ResponseEntity<BlocoDTO> findById(@PathVariable Long id) {
-        BlocoDTO dto = service.findById(id);
+    public ResponseEntity<ParticipanteDTO> findById(@PathVariable Long id) {
+        ParticipanteDTO dto = service.findById(id);
         return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping
-    public ResponseEntity<BlocoDTO> insert(@RequestBody BlocoDTO dto) {
+    public ResponseEntity<ParticipanteDTO> insert(@RequestBody ParticipanteDTO dto) {
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
@@ -39,7 +42,7 @@ public class BlocoResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<BlocoDTO> update(@PathVariable Long id, @RequestBody BlocoDTO dto) {
+    public ResponseEntity<ParticipanteDTO> update(@PathVariable Long id, @RequestBody ParticipanteDTO dto) {
         dto = service.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }
